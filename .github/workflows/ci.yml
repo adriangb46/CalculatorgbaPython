@@ -1,0 +1,31 @@
+name: Python CI
+
+# El flujo se dispara al hacer push o abrir un Pull Request a la rama main
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout de código
+      uses: actions/checkout@v4
+
+    - name: Configurar Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12' # Versión estable de Python
+
+    - name: Instalar dependencias
+      run: |
+        python -m pip install --upgrade pip
+        # Si tuvieras un requirements.txt lo instalaríamos aquí:
+        # pip install -r requirements.txt
+
+    - name: Ejecutar pruebas unitarias
+      run: |
+        python -m unittest test_calculadora.py
